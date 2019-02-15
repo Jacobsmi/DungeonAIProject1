@@ -20,18 +20,38 @@ public class AIProgram {
 
     }
     public void getRoomNeighbors(Node n){
-        System.out.println(n.room);
-        Set<Node> neighbors = new HashSet<>();
-        n.room.getNeighbors();
         for(Room t : n.room.getNeighbors()){
             Node node = new Node(t, d.containsSword(t), d.containsExit(t));
-            neighbors.add(node);
-        }
-        for(Node m : neighbors){
-            if(tree.addNode(m)){
-                n.children.add(m);
-                getRoomNeighbors(m);
+            if(tree.isNotNode(node)){
+                //System.out.println(n.room.ROOM_ID+" Neighbors "+ t.ROOM_ID);
+                n.children.add(node);
+                tree.addNode(node);
             }
+            else{
+                //System.out.println(n.room.ROOM_ID+" Neighbors "+ t.ROOM_ID + " but " + t.ROOM_ID + " is already a node");
+            }
+        }
+        for(Room t : n.room.getNeighbors()){
+            Node node = tree.returnNode(t);
+            if(node.isNotNode){
+                node.isNotNode =false;
+                getRoomNeighbors(node);
+            }
+        }
+        //n.printChildren();
+    }
+    //IterativeDeepeningDepthFirstSearch
+    public void searchForSword(){
+        Node goal = null;
+        Set<Node> current = new HashSet<>();
+        current.add(tree.head);
+        boolean atGoal = false;
+        for(Node n : tree.allNodes){
+            if(n.hasSword == true){
+                goal = n;
+            }
+        }
+        while(!atGoal){
         }
     }
 }
