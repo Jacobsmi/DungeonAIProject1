@@ -11,5 +11,5 @@ public class Tree {
         this.head = h;
         this.allNodes.add(head.room);
     }
-    //Returns true if a node else false
+
 }

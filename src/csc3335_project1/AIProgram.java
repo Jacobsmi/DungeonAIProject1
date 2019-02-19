@@ -39,6 +39,7 @@ public class AIProgram {
                     nodes.add(node);
                 }
                 else{
+                    //m.children.add(getNode(t));
                     System.out.println(m.room.ROOM_ID+" Neighbors "+ t.ROOM_ID + " but " + t.ROOM_ID + " is already a node");
                 }
             }
@@ -48,15 +49,25 @@ public class AIProgram {
     public void search(Node n) {
         HashSet<Node> swordPredictions;
         swordPredictions = nodes;
-        if(d.containsSword(n.room)){
-            System.out.println("Sword in first room");
-        }
-        if(d.containsExit(n.room)){
-            System.out.println("Exit in first room");
-            n.hasExit = true;
-            swordPredictions.remove(n);
+        Deque<Node> path = new LinkedList<>();
+        boolean goodChildren = false;
+        Node current = n;
+        boolean swordFound = false;
+        while(!swordFound){
+            if(!d.containsSword(current.room)){
+
+            }
         }
 
+
+    }
+    public Node getNode(Room t){
+        for(Node n: nodes){
+            if(t == n.room){
+                return n;
+            }
+        }
+        return null;
     }
 
 }
