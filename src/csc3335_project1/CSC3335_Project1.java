@@ -12,12 +12,12 @@ public class CSC3335_Project1 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Dungeon d = new Dungeon(5, 37, false);
+        Dungeon d = new Dungeon(5, 24, false);
         d.generateDungeon();
         //d.printDungeon();
         AIProgram bot = new AIProgram(d);
         bot.createTree();
-        bot.searchForS();
+        bot.search();
 
     }   
 }
