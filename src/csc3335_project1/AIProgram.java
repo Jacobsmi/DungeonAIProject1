@@ -22,8 +22,10 @@ public class AIProgram {
         getRoomNeighbors(head);
     }
     public void search(){
-        searchForSword(tree.head);
-        searchForDragon(tree.head);
+        Node inRoom = searchForSword(tree.head);
+        if(inRoom != null){
+            searchForDragon(inRoom);
+        }
         searchForExit(tree.head);
         checkWin();
     }
@@ -43,19 +45,20 @@ public class AIProgram {
                     nodes.add(node);
                 }
                 else{
-                    //m.children.add(getNode(t));
+                    m.children.add(getNode(t));
                     System.out.println(m.room.ROOM_ID+" Neighbors "+ t.ROOM_ID + " but " + t.ROOM_ID + " is already a node");
                 }
             }
         }
+        System.out.println("Nodes size: "+ nodes.size());
     }
 
-    public void searchForSword(Node n) {
-        HashSet<Node> swordPredictions;
-        swordPredictions = nodes;
-        Deque<Node> path = new LinkedList<>();
+    public Node searchForSword(Node n) {
+        HashSet<Node> swordPredictions = new HashSet<>();
+        swordPredictions.addAll(nodes);
         Node nextNode = null;
         Node current = n;
+        Node sword = null;
         boolean swordFound = false;
         while(!swordFound){
             if(d.containsExit(current.room)){
@@ -63,6 +66,7 @@ public class AIProgram {
             }
             if(d.containsSword(current.room)){
                 System.out.println("Sword found!");
+                sword = current;
                 swordFound = true;
             }
             for(Node m : current.children){
@@ -70,7 +74,6 @@ public class AIProgram {
                     nextNode = m;
                 }
             }
-            path.addFirst(current);
             swordPredictions.remove(current);
             current = nextNode;
             if(swordPredictions.isEmpty()){
@@ -78,30 +81,39 @@ public class AIProgram {
                 break;
             }
         }
+        return sword;
     }
     public void searchForDragon(Node n) {
-        HashSet<Node> dragonPredictions;
-        dragonPredictions = nodes;
-        Node nextNode = null;
-        Node current = n;
-        while(!hasKey){
-            if(d.containsDragon(current.room)){
+        HashSet<Node> dragonPredictions = new HashSet<>();
+        dragonPredictions.addAll(nodes);
+        Node predictedNode = null;
+        Node current;
+        current = n;
+        Node previous = null;
+        while (!hasKey){
+            if (d.containsDragon(current.room)) {
+                System.out.println("The dragon was slain and dropped the key!");
                 hasKey = true;
-                System.out.println("Dragon killed and key dropped");
-                break;
             }
+            HashSet<Node> possibleNodes = new HashSet<>();
             for(Node m : current.children){
-                if(dragonPredictions.contains(m)){
-                    nextNode = m;
-                }
+                possibleNodes.add(m);
+                possibleNodes.remove(previous);
             }
-            dragonPredictions.remove(current);
-            current = nextNode;
-            if(dragonPredictions.isEmpty()){
-                dragonPredictions = nodes;
+            for(Node x: dragonPredictions){
+                predictedNode = x;
             }
-        }
 
+            if(dragonPredictions.isEmpty() || dragonPredictions.size() == 0){
+                dragonPredictions.addAll(nodes);
+            }
+            else{
+                dragonPredictions.remove(current);
+            }
+            previous = current;
+            current = predictedNode;
+
+        }
     }
     public void searchForExit(Node n) {
         for(Node m: nodes){
@@ -134,6 +146,7 @@ public class AIProgram {
                 break;
             }
         }
+
     }
     public void checkWin(){
         if(hasKey == true && d.containsExit(exit)){
