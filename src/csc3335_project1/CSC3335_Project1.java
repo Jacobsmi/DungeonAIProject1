@@ -17,7 +17,7 @@ public class CSC3335_Project1 {
         //d.printDungeon();
         AIProgram bot = new AIProgram(d);
         bot.createTree();
-        bot.searchTree();
+        bot.searchForS();
 
     }   
 }

@@ -7,16 +7,13 @@ import java.util.Set;
 
 public class Node {
     Room room;
-    boolean hasSword;
-    boolean hasExit;
     boolean isNotNode = true;
+    boolean hasExit = false;
     Set<Node> children = new HashSet();
     Node parent = null;
 
-    public Node(Room r, boolean hS, boolean hE){
+    public Node(Room r){
         this.room = r;
-        this.hasSword = hS;
-        this.hasExit = hE;
 
     }
 
