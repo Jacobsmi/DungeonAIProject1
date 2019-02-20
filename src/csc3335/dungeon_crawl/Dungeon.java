@@ -130,7 +130,7 @@ public class Dungeon {
      */
     public boolean containsSword(Room r) {
         if (r.containsSword && !swordFound) {
-            System.out.println("The sword is here: Room #" + r.ROOM_ID);
+            //System.out.println("The sword is here: Room #" + r.ROOM_ID);
             r.containsSword = false;
             swordFound = true;
             return true;
